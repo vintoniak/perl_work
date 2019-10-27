@@ -1,18 +1,20 @@
 
 #!/usr/bin/perl
-print "Conten-Type: text/html\n\n";
-
 use strict;
 use warnings;
+# use Data::Dumper;
 
-# Open file for writting
+if($ENV{'CONTENT_LENGTH'}){
+# Open file for writting, read content from web
 open(my $fh, '>', 'file.txt') || die "Couldn't open file file.txt, $!";
-# read content from web
-read(STDIN, $buffer, $ENV{'CONTENT_LENGTH'});
+read(STDIN, my $buffer, $ENV{'CONTENT_LENGTH'});
 
-@pairs = split(/&/, $buffer);
-foreach $pair (@pairs) {
-  ($name, $value) = split(/=/, $pair);
+my @pairs = split(/&/, $buffer);
+foreach my $pair (@pairs) {
+  (my $name, my $value) = split(/=/, $pair); # dif key, value
   print $fh "$name: $value\n";
+ # print Dumper $pair;
 }
 print $fh "\n";
+close($fh);
+}

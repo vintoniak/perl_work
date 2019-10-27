@@ -1,3 +1,0 @@
-name: volodymyr
-location: kolomyia
-email: sadf@gmail.com
