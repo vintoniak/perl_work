@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use File::Find;
 use Data::Dumper;
-print "Conten-Type: text/html\n\n";
+# print "Content-Type: text/html\n\n";
 
 my $buffer;
 my $dir_token;
