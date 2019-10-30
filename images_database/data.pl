@@ -9,7 +9,7 @@ use DBI;
 
 my $dbh = DBI->connect("dbi:mysql:dbname=work", "root", "", { RaiseError => 1 },) or die $DBI::errstr;
 
-open IMAGE, "1.jpg" or die $!;
+open IMAGE, "22.gif" or die $!;
 
 my ($image, $buff);
 while (read IMAGE, $buff, 1024) {
@@ -18,7 +18,7 @@ while (read IMAGE, $buff, 1024) {
 
 # insert image to database
 
-my $stm = $dbh->prepare("INSERT INTO image_table(Id, image) VALUES (1, ?)");
+my $stm = $dbh->prepare("INSERT INTO image_table(id, image) VALUES (7, ?)");
 $stm->bind_param(1, $image, DBI::SQL_BLOB);
 $stm->execute();
 
