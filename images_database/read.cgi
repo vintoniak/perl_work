@@ -1,30 +1,31 @@
-#!/usr/bin/perl -w
-use CGI::Carp qw(fatalsToBrowser);
- 
-# режим вывода - jpeg картинки
-print "Content-type: image/jpg\n\n";
-
-binmode STDOUT; #двоичный режим
-
-use warnings;
+#!/usr/bin/perl
 use strict;
+use warnings;
 use DBI;
-
-#reading image from database 
-
-# try to connect to database
 
 my $dbh = DBI->connect("dbi:mysql:dbname=work", "root", "", { RaiseError => 1 },) or die $DBI::errstr;
 
-# taking image from database
+#запис картики в бд
+open (my $file, "22.gif");
+my ($image, $buff);
+while(read $file, $buff, 1024) {
+  $image .= $buff;
+}
+my $query = $dbh->prepare("INSERT INTO image_table(id,image) VALUES (7,?)");
+$query->bind_param(1, $image, DBI::SQL_BLOB);
+$query->execute;
 
-my $stm = $dbh->prepare("SELECT image FROM image_table WHERE id=3");
-$stm->execute();
-my $image = $stm->fetch();
+close($file);
+$query->finish();
 
-open IMAGE, ">1.jpg" or die $!;
-print IMAGE @$image;
-close(IMAGE);
+#зчитування даних і конвертація
+$query = $dbh->prepare("SELECT image FROM image_table");
+$query->execute;
 
-$stm->finish();
+$image = $query->fetch();
+
+print "Content-Type: image/gif\n\n";
+print @$image;
+
+$query->finish();
 $dbh->disconnect();
