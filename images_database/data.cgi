@@ -26,3 +26,5 @@ close(image_table);
 $stm->finish();
 $dbh->disconnect();
 
+1;
+
